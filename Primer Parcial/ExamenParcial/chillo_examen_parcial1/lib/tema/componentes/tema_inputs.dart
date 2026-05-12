@@ -21,7 +21,7 @@ class TemaInputs {
     ),
 
     prefixIconColor:
-        ColoresApp.primario,
+        ColoresApp.secundario,
 
     labelStyle: const TextStyle(
       color: ColoresApp.textoClaro,
@@ -49,7 +49,7 @@ class TemaInputs {
           BorderRadius.circular(14),
 
       borderSide: const BorderSide(
-        color: ColoresApp.primario,
+        color: ColoresApp.secundario,
         width: 2,
       ),
     ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ColoresApp {
 
   // COLORES PRINCIPALES
-  static const Color primario = Color(0xFF6C63FF);
-  static const Color secundario = Color(0xFFD6D3FF);
-  static const Color acento = Color(0xFFFF8FAB);
+  static const Color primario = Color(0xFFFF4081);
+  static const Color secundario = Color(0xFF8ED1FF); 
+  static const Color acento = Colors.white;
 
   // ESTADOS
   static const Color exito = Color(0xFF22C55E);

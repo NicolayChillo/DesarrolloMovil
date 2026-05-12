@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tema_personalizado/tema/colores_app.dart';
+import '/tema/colores_app.dart';
 
 class BordesApp {
 
@@ -11,7 +11,7 @@ class BordesApp {
 
   // BORDE PRIMARIO
   static Border bordePrimario = Border.all(
-    color: ColoresApp.primario,
+    color: ColoresApp.secundario,
     width: 2,
   );
 

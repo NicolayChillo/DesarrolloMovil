@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'data/datasources/pokeapi_datasource.dart';
-import 'data/repository/pokemon._repository.dart';
-import 'domain/usecase/get_pokemon_usecase.dart';
+import 'data/datasources/nasaapi_datasource.dart';
+import 'data/repository/nasa_repository.dart';
+import 'domain/usecase/get_nasa_usecase.dart';
 import 'presentation/routes/app_routes.dart';
-import 'presentation/viewmodel/pokemon_viewmodel.dart';
+import 'presentation/viewmodel/nasa_viewmodel.dart';
 
 import 'tema/export.dart';
 
 void main() {
-  //inyeccion de dependencias
-  final datasource = PokeApiDatasource();
-  final repository = PokemonRepository(datasource);
-  final usecase = GetPokemonUsecase(repository: repository);
+  final datasource = NasaApiDatasource();
+  final repository = NasaRepository(datasource);
+  final usecase = GetNasaUsecase(repository: repository);
 
   runApp(MyApp(usecase: usecase));
 }
 
 class MyApp extends StatelessWidget {
-  //inyeccion de dependencias a nivel de la app
-  final GetPokemonUsecase usecase;
+  final GetNasaUsecase usecase;
 
 
   const MyApp({super.key, required this.usecase});
@@ -30,11 +28,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => PokemonViewmodel(getPokemonUsecase: usecase),
+          create: (_) => NasaViewmodel(getNasaUsecase: usecase),
         ),
       ],
       child: MaterialApp(
-        title: 'Pokedex',
+        title: 'NASA APOD',
+        debugShowCheckedModeBanner: false,
         theme: TemaGeneral.temaClaro,
         initialRoute: "/",
         routes: AppRoutes.getRoutes(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/pokemon.dart';
+import '../../domain/entities/nasa.dart';
 import '../../tema/export.dart';
 
 
@@ -9,35 +9,48 @@ class DetallePage extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    //obtencion del pokemon pasado como argumento
-    final Pokemon p = ModalRoute.of(context)!.settings.arguments as Pokemon;
+    final Nasa apod = ModalRoute.of(context)!.settings.arguments as Nasa;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(p.name.toUpperCase()), //nombre del pokemon en mayusculas
+        title: Text(apod.title),
       ),
       body: Container(
         decoration: FondosApp.gradientePrincipal,
-        child: Center(
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.network(p.imageUrl, width: 300), //imagen del pokemon
-                  const SizedBox(height: 20), //espacio entre la imagen y el texto
-                  Text(
-                    p.name.toUpperCase(),
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(apod.url, width: 300),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        apod.title,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        apod.date,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        apod.explanation,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 10), //espacio entre el nombre y el id
-                  Text(
-                    "Id: ${p.id}",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ), //id del pokemon
-                ],
+                ),
               ),
             ),
           ),

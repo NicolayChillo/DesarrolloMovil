@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColoresApp {
 
   // COLORES PRINCIPALES
-  static const Color primario = Color(0xFF6C63FF);
+  static const Color primario = Color(0xFF0B3D91);
   static const Color secundario = Color(0xFFD6D3FF);
   static const Color acento = Color(0xFFFF8FAB);
 

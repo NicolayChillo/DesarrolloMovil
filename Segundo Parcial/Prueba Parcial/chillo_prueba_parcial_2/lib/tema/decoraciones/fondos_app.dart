@@ -11,7 +11,7 @@ class FondosApp {
 
       colors: [
         ColoresApp.primario,
-        Color(0xFF8B85FF),
+        Color.fromARGB(255, 82, 74, 225),
       ],
 
       begin: Alignment.topLeft,

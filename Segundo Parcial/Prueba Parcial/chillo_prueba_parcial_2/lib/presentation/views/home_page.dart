@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../viewmodel/pokemon_viewmodel.dart';
+import '../viewmodel/nasa_viewmodel.dart';
 
 class HomePage extends StatefulWidget{
   HomePage({super.key});
@@ -11,67 +11,90 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage>{ 
-  //INICIALIZANDO EL VIEWMODEL
   @override
   void initState(){
 
     super.initState();
 
-    //para cargar los pokemons al iniciar la app
     Future.microtask(()=> 
-      Provider.of<PokemonViewmodel>(context, listen: false).loadPolemons()
+      Provider.of<NasaViewmodel>(context, listen: false).loadNasa(count: 10)
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    //obtencion de los pokemons desde el viewmodel
-    final vm = Provider.of<PokemonViewmodel>(context);
+    final vm = Provider.of<NasaViewmodel>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pokedex"),
+        title: const Text("NASA APOD"),
       ),
-      body: ListView.builder(
-        itemCount: vm.pokemons.length, //cantidad de pokemons obtenidos
-        itemBuilder: (_, index) { //construccion de cada item de la lista
-          final p = vm.pokemons[index]; //obtencion de cada pokemon
-          return Card(
-            child: InkWell(
-              onTap: () {
-                //navegacion a la pagina de detalle del pokemon, pasando el pokemon como argumento
-                Navigator.pushNamed(context, "/detalle", arguments: p);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 90,
-                      height: 90,
-                      child: Image.network(
-                        p.imageUrl,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            p.name.toUpperCase(),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 4),
-                          Text("Id: ${p.id}"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      body: Builder(
+        builder: (context) {
+          if (vm.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (vm.errorMessage != null) {
+            return Center(
+              child: Text(vm.errorMessage!),
+            );
+          }
+
+          if (vm.apods.isEmpty) {
+            return const Center(
+              child: Text('No hay imágenes disponibles.'),
+            );
+          }
+
+          return GridView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: vm.apods.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.62,
             ),
+            itemBuilder: (_, index) {
+              final apod = vm.apods[index];
+              return Card(
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/detalle", arguments: apod);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: Image.network(
+                              apod.url,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Flexible(
+                          child: Text(
+                            apod.title,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            softWrap: true,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(apod.date),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
